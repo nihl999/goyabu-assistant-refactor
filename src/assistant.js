@@ -23,17 +23,20 @@ function getInfo(){
     }
     return animeData;
 }
+function clearHome(){
+    document.querySelector('#home-content').remove();
+}
 const favList = () => new Promise((resolve) => {
     if (document.readyState == 'interactive' || document.readyState == 'complete'){
         const sideBar = document.querySelector('.sidebar-nav');
         const sideBarList = sideBar.querySelector('ul');
         const sideBarElement = sideBarList.querySelector('.lihead');
         const assistant = sideBarElement.cloneNode(true);
+        assistant.querySelector('a').removeAttribute('href');
         assistant.querySelector('a').childNodes[1].nodeValue = 'Goyabu Assistant';
         assistant.querySelector('.material-icons').innerText = 'video_library';
+        assistant.addEventListener('click', clearHome);
         sideBarList.appendChild(assistant);
-
-
     }
 });
 
