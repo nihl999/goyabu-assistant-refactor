@@ -1,0 +1,21 @@
+{
+    "manifest_version": 2,
+    "name": "Goyabu Assistant",
+    "version": "1.0",
+    "permissions": ["declarativeContent", "storage"],
+    "content_scripts":[
+        {
+        "matches": ["*://goyabu.com/*"],
+        "js": ["src/assistant.js"],
+        "css": ["./src/css/style1.css"]
+    }
+    ],
+    "background": {
+        "scripts": [
+            "./src/loader.js"
+        ]
+    },
+    "page_action": {
+        "default_popup": "./src/html/popup.html"
+    }
+}
