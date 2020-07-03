@@ -5,7 +5,7 @@
     "permissions": ["declarativeContent", "storage"],
     "content_scripts":[
         {
-        "matches": ["*://goyabu.com/*"],
+        "matches": ["*://goyabu.com/"],
         "js": ["src/assistant.js"],
         "css": ["./src/css/style1.css"]
     },{
