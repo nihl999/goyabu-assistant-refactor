@@ -1,12 +1,15 @@
 function addFavs(){
     const newAnime = getInfo();
+    const favButton = document.querySelector('.favButton');
     chrome.storage.sync.get(['favorites'], function(favs) {
         if(favs.favorites.some(anime => anime.nome === newAnime.nome) == false){
             favs.favorites.push(newAnime);
-            const favButton = document.querySelector('.favButton');
             favButton.innerHTML = 'UNFAV';
-            favButton.style.width = '60px';
-        } else {};
+        } else {
+            const animeIndex = favs.favorites.indexOf(newAnime.nome);
+            favs.favorites.splice(animeIndex, 1);
+            favButton.innerHTML = 'FAV';
+        };
         console.log(favs);
         chrome.storage.sync.set({favorites: favs.favorites});
     });
@@ -21,23 +24,36 @@ function getInfo(){
     }
     return animeData;
 };
+const buttonValue = new Promise((resolve)=>{
+    const newAnime = getInfo();
+    chrome.storage.sync.get(['favorites'], function(favs) {
+        if(favs.favorites.some(anime => anime.nome === newAnime.nome) == false){
+            resolve('FAV')
+        } else {
+            resolve('UNFAV')
+        }
+    })
+});
 
-const buttonAdd = () => new Promise(()=>{
+const buttonAdd = new Promise(()=>{
     if (document.readyState == 'interactive' || document.readyState == 'complete'){
         const animeInfoPlace = document.querySelector('.left20');
         const buttonPlace = animeInfoPlace.querySelector('p');
         const button = document.createElement('button');
-        button.appendChild(document.createTextNode('FAV'));
-        button.addEventListener('click', addFavs);
-        button.classList.add('favButton');
-        buttonPlace.appendChild(button);
+        buttonValue.then(val => {
+            button.appendChild(document.createTextNode(val));           
+            button.addEventListener('click', addFavs);
+            button.classList.add('favButton');
+            buttonPlace.appendChild(button);
+        })
     }
-})
-async function callPromise(){
-    await buttonAdd();
-}
+});
 
-callPromise();
+async function callPromise(requestedPromise){
+    await requestedPromise;
+};
+
+callPromise(buttonAdd);
 
 
 
