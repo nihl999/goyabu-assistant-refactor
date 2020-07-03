@@ -1,8 +1,12 @@
 function showFavs(){
-    document.querySelector('#home-content').innerHTML = '';
+    const animeRegion = document.querySelector('#home-content');
+    animeRegion.innerHTML = '';
+    const regionTitle = document.createElement('h1');
+    regionTitle.appendChild(document.createTextNode('Lista de favoritos: '));
+    animeRegion.appendChild(regionTitle);
+    animeRegion.appendChild(document.createElement('br'));
     chrome.storage.sync.get(['favorites'], function(favs) {
         if (favs.favorites.length == 0){
-            const animeRegion = document.querySelector('#home-content');
             const noAnimeLabel = document.createTextNode('Você nao tem animes favoritados!');
             const noAnimeNode = document.createElement('a');
             noAnimeNode.setAttribute('href', 'https://goyabu.com/');
@@ -10,7 +14,6 @@ function showFavs(){
             animeRegion.appendChild(noAnimeNode);
         } else {
             favs.favorites.forEach(anime => {
-                const animeRegion = document.querySelector('#home-content');
                 const animeName = anime.nome;
                 const animeLabel = document.createTextNode( animeName + '\n');
                 const animeURL = anime.link;
