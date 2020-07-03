@@ -8,6 +8,10 @@
         "matches": ["*://goyabu.com/*"],
         "js": ["src/assistant.js"],
         "css": ["./src/css/style1.css"]
+    },{
+        "matches": ["*://goyabu.com/assistir/*"],
+        "js": ["src/addbutton.js"],
+        "css": ["./src/css/style2.css"]
     }
     ]
 }

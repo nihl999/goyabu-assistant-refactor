@@ -10,30 +10,13 @@ function showFavs(){
             animeNode.setAttribute('href', animeURL);
             animeNode.appendChild(animeLabel);
             animeRegion.appendChild(animeNode);
+            animeRegion.appendChild(document.createElement('br'));
     
         });
         console.log(favs);
     });
 };
-function addFavs(){
-    const newAnime = getInfo();
-    chrome.storage.sync.get(['favorites'], function(favs) {
-        if(favs.favorites.some(anime => anime.nome === newAnime.nome) == false)
-        favs.favorites.push(newAnime);
-        console.log(favs);
-        chrome.storage.sync.set({favorites: favs.favorites});
-    });
-};
-function getInfo(){
-    const animeLabel = document.querySelector('.left20');
-    const animeName = animeLabel.querySelector('h1').innerText;
-    const animeURL = location.href;
-    const animeData = {
-        nome: animeName,
-        link: animeURL
-    }
-    return animeData;
-}
+
 const favList = () => new Promise((resolve) => {
     if (document.readyState == 'interactive' || document.readyState == 'complete'){
         const sideBar = document.querySelector('.sidebar-nav');
