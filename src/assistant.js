@@ -1,18 +1,26 @@
 function showFavs(){
     document.querySelector('#home-content').innerHTML = '';
     chrome.storage.sync.get(['favorites'], function(favs) {
-        favs.favorites.forEach(anime => {
+        if (favs.favorites.length == 0){
             const animeRegion = document.querySelector('#home-content');
-            const animeName = anime.nome;
-            const animeLabel = document.createTextNode( animeName + '\n');
-            const animeURL = anime.link;
-            const animeNode = document.createElement('a');
-            animeNode.setAttribute('href', animeURL);
-            animeNode.appendChild(animeLabel);
-            animeRegion.appendChild(animeNode);
-            animeRegion.appendChild(document.createElement('br'));
+            const noAnimeLabel = document.createTextNode('Você nao tem animes favoritados!');
+            const noAnimeNode = document.createElement('a');
+            noAnimeNode.setAttribute('href', 'https://goyabu.com/');
+            noAnimeNode.appendChild(noAnimeLabel);
+            animeRegion.appendChild(noAnimeNode);
+        } else {
+            favs.favorites.forEach(anime => {
+                const animeRegion = document.querySelector('#home-content');
+                const animeName = anime.nome;
+                const animeLabel = document.createTextNode( animeName + '\n');
+                const animeURL = anime.link;
+                const animeNode = document.createElement('a');
+                animeNode.setAttribute('href', animeURL);
+                animeNode.appendChild(animeLabel);
+                animeRegion.appendChild(animeNode);
+                animeRegion.appendChild(document.createElement('br'));
     
-        });
+        })};
         console.log(favs);
     });
 };
