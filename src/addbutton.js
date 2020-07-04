@@ -6,8 +6,9 @@ function addFavs(){
             favs.favorites.push(newAnime);
             favButton.innerHTML = 'UNFAV';
         } else {
-            const animeIndex = favs.favorites.indexOf(newAnime.nome);
-            favs.favorites.splice(animeIndex, 1);
+            const animeIndex = favs.favorites.findIndex(anime => anime.nome == newAnime.nome);
+            //const animeIndex = favs.favorites.indexOf(newAnime.nome);
+            const favor = favs.favorites.splice(animeIndex, 1);
             favButton.innerHTML = 'FAV';
         };
         console.log(favs);
@@ -27,10 +28,15 @@ function getInfo(){
 const buttonValue = new Promise((resolve)=>{
     const newAnime = getInfo();
     chrome.storage.sync.get(['favorites'], function(favs) {
-        if(favs.favorites.some(anime => anime.nome === newAnime.nome) == false){
-            resolve('FAV')
+        if (favs.favorites != undefined){
+            if(favs.favorites.some(anime => anime.nome === newAnime.nome) == false){
+                resolve('FAV')
+            } else {
+                resolve('UNFAV')
+            }
         } else {
-            resolve('UNFAV')
+            chrome.storage.sync.set({favorites: []});
+            resolve('FAV');
         }
     })
 });
